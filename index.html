@@ -72,10 +72,6 @@
         p {
             font-size: 16px;
         }
-        html, body {
-    touch-action: manipulation;
-    -ms-touch-action: manipulation;
-}
     </style>
 </head>
 <body>
@@ -99,4 +95,15 @@
     <button class="button">Проверить доходы</button>
     <button class="button">Другие функции</button>
 </body>
+<script>
+    document.addEventListener('wheel', function(e) {
+        if (e.ctrlKey) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    document.addEventListener('gesturestart', function(e) {
+        e.preventDefault();
+    });
+</script>
 </html>
