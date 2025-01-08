@@ -77,8 +77,6 @@
 <body>
     <p>Добро пожаловать!</p>
 
-   
-
     <!-- Секция отчётов -->
     <div class="report">
         <h2>Отчёты</h2>
@@ -90,20 +88,57 @@
         <h2>Доходы</h2>
         <p>Общий доход: 10 000 000 ₽</p>
     </div>
-     <!-- Кнопки -->
+
+    <!-- Кнопки -->
     <button class="button">Посмотреть отчёты</button>
     <button class="button">Проверить доходы</button>
     <button class="button">Другие функции</button>
-</body>
-<script>
-    document.addEventListener('wheel', function(e) {
-        if (e.ctrlKey) {
-            e.preventDefault();
-        }
-    }, { passive: false });
+    <button id="notify-button" class="button">Отправить уведомление</button>
 
-    document.addEventListener('gesturestart', function(e) {
-        e.preventDefault();
-    });
-</script>
+    <script>
+        // Регистрация Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(() => {
+                    console.log('Service Worker зарегистрирован');
+                })
+                .catch(error => {
+                    console.error('Ошибка при регистрации Service Worker:', error);
+                });
+        }
+
+        // Проверка поддержки уведомлений
+        const notifyButton = document.getElementById('notify-button');
+
+        notifyButton.addEventListener('click', () => {
+            if (!('Notification' in window)) {
+                alert('Ваш браузер не поддерживает уведомления.');
+                return;
+            }
+
+            // Запрос разрешения на отправку уведомлений
+            if (Notification.permission === 'default' || Notification.permission === 'denied') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        showNotification();
+                    } else {
+                        alert('Уведомления отключены.');
+                    }
+                });
+            } else if (Notification.permission === 'granted') {
+                showNotification();
+            }
+        });
+
+        function showNotification() {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.showNotification('Пример уведомления', {
+                    body: 'Это уведомление сработало успешно!',
+                    icon: 'image.png',
+                    vibrate: [200, 100, 200]
+                });
+            });
+        }
+    </script>
+</body>
 </html>
