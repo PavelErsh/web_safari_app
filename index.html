@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My App</title>
+    <title>Моё приложение</title>
 
     <!-- Указать, что приложение можно добавлять на домашний экран -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,16 +12,82 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
     <!-- Указать название приложения (отображается при добавлении) -->
-    <meta name="apple-mobile-web-app-title" content="My App">
+    <meta name="apple-mobile-web-app-title" content="Панель управления">
 
     <!-- Иконка для домашнего экрана -->
     <link rel="apple-touch-icon" sizes="180x180" href="icon-180x180.png">
 
     <!-- Фон страницы при запуске (опционально) -->
     <meta name="theme-color" content="#ffffff">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f0f8ff;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .button {
+            display: block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            margin: 10px auto;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 90%;
+            max-width: 300px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        .report, .income {
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        p {
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>Welcome to my web application!</p>
+    <p>Добро пожаловать!</p>
+
+    <!-- Кнопки -->
+    <button class="button">Посмотреть отчёты</button>
+    <button class="button">Проверить доходы</button>
+    <button class="button">Другие функции</button>
+
+    <!-- Секция отчётов -->
+    <div class="report">
+        <h2>Отчёты</h2>
+        <p>В настоящее время отчёты отсутствуют.</p>
+    </div>
+
+    <!-- Секция доходов -->
+    <div class="income">
+        <h2>Доходы</h2>
+        <p>Общий доход: 0 ₽</p>
+    </div>
 </body>
 </html>
