@@ -4,26 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>Моё приложение</title>
-
-    <!-- Указать, что приложение можно добавлять на домашний экран -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-
-    <!-- Убрать строку статуса iOS (опционально: default, black, black-translucent) -->
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-    <!-- Указать название приложения (отображается при добавлении) -->
     <meta name="apple-mobile-web-app-title" content="Управление">
-
-    <!-- Иконка для домашнего экрана -->
     <link rel="apple-touch-icon" sizes="180x180" href="image.png">
-
-    <!-- Фон страницы при запуске (опционально) -->
     <meta name="theme-color" content="#ffffff">
-
-    <!-- Фавикон -->
     <link rel="icon" type="image/png" sizes="32x32" href="image.png">
     <link rel="icon" type="image/png" sizes="16x16" href="image.png">
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,8 +30,14 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            padding-left: 25%;
             z-index: 1000;
+        }
+
+        .login-form h2 {
+            text-align: center;
+            padding-left: 18%;
         }
 
         .login-form input {
@@ -56,6 +49,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
+            box-sizing: border-box;
         }
 
         .login-form button {
@@ -69,7 +63,8 @@
             width: 90%;
             max-width: 350px;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-left: 5%; /* Сдвиг кнопки чуть правее */
+            margin: 10px 0;
+            box-sizing: border-box;
         }
 
         .login-form button:hover {
@@ -96,6 +91,7 @@
             width: 90%;
             max-width: 300px;
             transition: background-color 0.3s ease, transform 0.2s ease;
+            box-sizing: border-box;
         }
 
         .button:hover {
@@ -113,10 +109,157 @@
             width: 90%;
             max-width: 400px;
             text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         p {
             font-size: 16px;
+        }
+
+        .report-form-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .report-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .report-form label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .report-form input, .report-form select, .report-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .report-form input:focus, .report-form select:focus, .report-form textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        .report-form select {
+            appearance: none;
+            background-color: #fff;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px;
+            padding-right: 30px;
+        }
+
+        .report-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .report-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease;
+        }
+
+        .report-form button:hover {
+            background-color: #45a049;
+        }
+
+        .loader-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1002;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-form input,
+        .loading-form select,
+        .loading-form textarea,
+        .loading-form button {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .required {
+            color: red;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #000;
+        }
+
+        .report-item {
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+            font-size: 12px;
+        }
+
+        .report-item:last-child {
+            border-bottom: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -137,7 +280,9 @@
         <!-- Секция отчётов -->
         <div class="report">
             <h2>Отчёты</h2>
-            <p>В настоящее время отчёты отсутствуют.</p>
+            <div id="reports-list">
+                <p>В настоящее время отчёты отсутствуют.</p>
+            </div>
         </div>
 
         <!-- Секция доходов -->
@@ -151,6 +296,46 @@
         <button class="button">Проверить доходы</button>
         <button class="button">Другие функции</button>
         <button id="notify-button" class="button">Отправить уведомление</button>
+        <button id="report-button" class="button">Отправить отчёт</button>
+    </div>
+
+    <!-- Форма для отправки отчёта -->
+    <div class="report-form-overlay" id="report-form-overlay">
+        <div class="report-form">
+            <!-- Крестик для закрытия формы -->
+            <span class="close-btn" id="close-btn">&times;</span>
+            <h2>Отправить отчёт</h2>
+            <form id="report-form">
+                <!-- Текстовое поле -->
+                <label for="report-text">Текстовое поле <span class="required">*</span></label>
+                <input type="text" id="report-text" placeholder="Введите текст" required>
+
+                <!-- Зависимые списки -->
+                <label for="category">Категория <span class="required">*</span></label>
+                <select id="category">
+                    <option value="">Выберите категорию</option>
+                    <option value="Доходы">Доходы</option>
+                    <option value="Расходы">Расходы</option>
+                </select>
+
+                <label for="sub-category">Подкатегория</label>
+                <select id="sub-category">
+                    <option value="">Выберите подкатегорию</option>
+                </select>
+
+                <!-- Комментарий -->
+                <label for="comment">Комментарий</label>
+                <textarea id="comment" placeholder="Введите комментарий"></textarea>
+
+                <!-- Кнопка отправки -->
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Лоадер с оверлеем -->
+    <div class="loader-overlay" id="loader-overlay">
+        <div class="loader"></div>
     </div>
 
     <script>
@@ -214,6 +399,121 @@
                 });
             });
         }
+
+        function showNotificationReport() {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.showNotification('Отчёт', {
+                    body: 'Сотрудник Иванов отправил отчёт!',
+                    icon: 'image.png',
+                    vibrate: [200, 100, 200]
+                });
+            });
+        }
+
+        // Обработка формы отчёта
+        const reportButton = document.getElementById('report-button');
+        const reportFormOverlay = document.getElementById('report-form-overlay');
+        const reportForm = document.getElementById('report-form');
+        const loaderOverlay = document.getElementById('loader-overlay');
+        const closeBtn = document.getElementById('close-btn');
+        const reportsList = document.getElementById('reports-list');
+
+        reportButton.addEventListener('click', () => {
+            reportFormOverlay.style.display = 'flex';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            reportFormOverlay.style.display = 'none';
+        });
+
+        reportForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            // Проверка обязательных полей
+            const reportText = document.getElementById('report-text');
+            const category = document.getElementById('category');
+
+            if (reportText.value.trim() === '') {
+                alert('Пожалуйста, заполните текстовое поле.');
+                return;
+            }
+
+            if (category.value === '') {
+                alert('Пожалуйста, выберите категорию.');
+                return;
+            }
+
+            // Показываем лоадер и блокируем форму
+            loaderOverlay.style.display = 'flex';
+            reportForm.classList.add('loading-form');
+
+            setTimeout(() => {
+                // Скрываем лоадер и разблокируем форму
+                loaderOverlay.style.display = 'none';
+                reportForm.classList.remove('loading-form');
+
+                alert('Данные успешно отправлены!');
+                reportFormOverlay.style.display = 'none';
+
+                // Добавление данных в отчёты
+                const reportData = {
+                    text: reportText.value,
+                    category: category.value,
+                    subCategory: document.getElementById('sub-category').value,
+                    comment: document.getElementById('comment').value
+                };
+
+                addReportToUI(reportData); // Добавляем данные в интерфейс
+                reportForm.reset(); // Сброс формы
+                showNotification();
+            }, 3000); // Имитация загрузки
+        });
+
+        // Функция для добавления отчёта в интерфейс
+        function addReportToUI(reportData) {
+            const reportItem = document.createElement('div');
+            reportItem.className = 'report-item';
+
+            // Форматируем данные для отображения
+            const reportContent = `
+                <strong>Текст:</strong> ${reportData.text}<br>
+                <strong>Категория:</strong> ${reportData.category}<br>
+                <strong>Подкатегория:</strong> ${reportData.subCategory}<br>
+                <strong>Комментарий:</strong> ${reportData.comment}
+            `;
+
+            reportItem.innerHTML = reportContent;
+
+            // Если отчётов нет, удаляем сообщение "Отчёты отсутствуют"
+            if (reportsList.querySelector('p')) {
+                reportsList.innerHTML = '';
+            }
+
+            reportsList.appendChild(reportItem); // Добавляем новый отчёт
+        }
+
+        // Зависимые списки
+        const category = document.getElementById('category');
+        const subCategory = document.getElementById('sub-category');
+
+        const options = {
+            Доходы: ['Клиенты', 'Заказы'],
+            Расходы: ['Зарплаты', 'Налоги']
+        };
+
+        category.addEventListener('change', () => {
+            const selectedCategory = category.value;
+            subCategory.innerHTML = '<option value="">Выберите подкатегорию</option>';
+
+            if (selectedCategory && options[selectedCategory]) {
+                options[selectedCategory].forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item;
+                    option.textContent = item;
+                    subCategory.appendChild(option);
+                });
+            }
+        });
     </script>
 </body>
 </html>
